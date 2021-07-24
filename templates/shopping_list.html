@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+<nav class="navbar">
+    <h3>Shopping List</h3>
+    <a class="navbar-button" href="{{ url_for('logout') }}">Logout</a>
+</nav>
+{% endblock %}
+{% block content %}
+
+
+<h2>Welcome {{ user.fname }}!</h2>
+
+
+<form method="POST" action="{{ url_for('add_item') }}">
+    <textarea id="new_item" name="new_item" minlength="3" maxlength="500" class="text-input"
+        required></textarea>
+   
+        <!-- Submit button -->
+    <div>
+        <button class="button add-new" type="submit">
+            Add New Item
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 icon" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        </button>
+    </div>
+</form>
+
+<section>
+    <div>
+        {% for item in user.list %}
+        <div class="shopping-item">
+            <p class="items">{{ item.value }}</p>
+
+            <form method="POST" action="{{ url_for('delete_item', item_id=item._id) }}">
+                <button class="button-delete-item" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 icon" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+
+    <form method="POST" action="{{ url_for('delete_all_items') }}">
+        <button class="button delete-all" type="submit">
+            Delete All Items
+        </button>
+    </form>
+
+</section>
+{% endblock %}
